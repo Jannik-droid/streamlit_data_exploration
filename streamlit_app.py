@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import ydata_profiling
 from streamlit_pandas_profiling import st_profile_report
-
+from pycaret.classification import setup, compare_models, pull, save_model, load_model
 
 
 
@@ -29,3 +29,20 @@ if Choice == "Data Report":
     st.title("Get an automated ydata_profiling_report from your uploaded Data!")
     profile_report = data_df.profile_report()
     st_profile_report(profile_report)
+
+
+if Choice == "ML Model Analysis":
+    st.title("Analyse which Model performs best for your Data")
+    targe_column = st.selectbox("Choose your target Column", data_df.columns)
+    problem_type = st.selectbox("Choose Problem Type", ["Classification Problem", "Regression Problem"])
+
+    if st.button("Run Model Analysis"):
+        if problem_type == "Classification Problem":
+            from pycaret.classification import setup, compare_models, pull, save_model, load_model
+            setup(data_df, target=targe_column)
+            setup_df = pull()
+            st.dataframe(setup_df)
+            best_model = compare_models()
+            compare_df = pull()
+            st.dataframe(compare_df)
+            save_model(best_model, 'best_model')
