@@ -10,7 +10,7 @@ from pycaret.classification import setup, compare_models, pull, save_model, load
 #Sidebar
 with st.sidebar:
     st.image("Bild1.png")
-    st.title("Auto Steam ML")
+    st.title("Auto ML")
     Choice = st.radio("Choose one of the following options:", ["Upload your Data", "Data Report", "ML Model Analysis"])
 
 #Check if some Data is already Existing
@@ -39,6 +39,17 @@ if Choice == "ML Model Analysis":
     if st.button("Run Model Analysis"):
         if problem_type == "Classification Problem":
             from pycaret.classification import setup, compare_models, pull, save_model, load_model
+            setup(data_df, target=targe_column)
+            setup_df = pull()
+            st.dataframe(setup_df)
+            best_model = compare_models()
+            compare_df = pull()
+            st.dataframe(compare_df)
+            save_model(best_model, 'best_model')
+
+
+        if problem_type == "Regression Problem":
+            from pycaret.regression import setup, compare_models, pull, save_model, load_model
             setup(data_df, target=targe_column)
             setup_df = pull()
             st.dataframe(setup_df)
