@@ -3,9 +3,10 @@ import pandas as pd
 import os
 import ydata_profiling
 from streamlit_pandas_profiling import st_profile_report
-from pycaret.classification import setup, compare_models, pull, save_model, load_model
 
-
+#PyCaret
+from pycaret.classification import setup as claSetup, compare_models as claCompare_models, pull as claPull, save_model as claSave_model, load_model as claLoad_model
+from pycaret.classification import setup as regSetup, compare_models as regCompare_models, pull as regPull, save_model as regSave_model, load_model as regLoad_model
 
 #Sidebar
 with st.sidebar:
@@ -30,7 +31,6 @@ if Choice == "Data Report":
     profile_report = data_df.profile_report()
     st_profile_report(profile_report)
 
-
 if Choice == "ML Model Analysis":
     st.title("Analyse which Model performs best for your Data")
     targe_column = st.selectbox("Choose your target Column", data_df.columns)
@@ -38,22 +38,19 @@ if Choice == "ML Model Analysis":
 
     if st.button("Run Model Analysis"):
         if problem_type == "Classification Problem":
-            from pycaret.classification import setup, compare_models, pull, save_model, load_model
-            setup(data_df, target=targe_column)
-            setup_df = pull()
+            claSetup(data_df, target=targe_column)
+            setup_df = claPull()
             st.dataframe(setup_df)
-            best_model = compare_models()
-            compare_df = pull()
+            best_model = claCompare_models()
+            compare_df = claPull()
             st.dataframe(compare_df)
-            save_model(best_model, 'best_model')
-
+            claSave_model(best_model, 'best_model')
 
         if problem_type == "Regression Problem":
-            from pycaret.regression import setup, compare_models, pull, save_model, load_model
-            setup(data_df, target=targe_column)
-            setup_df = pull()
+            regSetup(data_df, target=targe_column)
+            setup_df = regPull()
             st.dataframe(setup_df)
-            best_model = compare_models()
-            compare_df = pull()
+            best_model = regCompare_models()
+            compare_df = regPull()
             st.dataframe(compare_df)
-            save_model(best_model, 'best_model')
+            regSave_model(best_model, 'best_model')
