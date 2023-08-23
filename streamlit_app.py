@@ -7,7 +7,7 @@ from streamlit_pandas_profiling import st_profile_report
 #PyCaret
 from pycaret.classification import setup as claSetup, compare_models as claCompare_models, pull as claPull, save_model as claSave_model, load_model as claLoad_model
 from pycaret.classification import setup as regSetup, compare_models as regCompare_models, pull as regPull, save_model as regSave_model, load_model as regLoad_model
-
+ 
 #Sidebar
 with st.sidebar:
     st.image("Bild1.png")
